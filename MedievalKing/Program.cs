@@ -12,7 +12,7 @@ namespace MedievalKing
         {
             try
             {
-                var input = File.ReadAllText("InputFile.txt");
+                var input = File.ReadAllText("Input/InputFile.txt");
                 if (!InputHelper.ValidateInput(input))
                 {
                     throw new Exception("Invalid input");
@@ -37,6 +37,7 @@ namespace MedievalKing
                 }
 
                 Console.WriteLine(strategy.ToString());
+                Console.ReadLine();
             }
             catch(Exception ex)
             {
