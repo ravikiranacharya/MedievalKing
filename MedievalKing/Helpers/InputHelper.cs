@@ -7,7 +7,8 @@ namespace MedievalKing.Helpers
 {
     public static class InputHelper
     {
-        public static IEnumerable<Platoon> ParseKingdom(string line)
+        
+        public static IEnumerable<Platoon> ParseKingdom(string line, List<string> terrains)
         {
             var platoons = new List<Platoon>();
 
@@ -17,8 +18,25 @@ namespace MedievalKing.Helpers
             }
 
             var platoonList = line.Split(";");
-            foreach(var p in platoonList)
+            //foreach(var p in platoonList)
+            //{
+            //    if (!ValidatePlatoon(p))
+            //    {
+            //        throw new Exception(string.Format("Invalid platoon: {0}", p));
+            //    }
+
+            //    var chunks = p.Split("#");
+
+            //    var platoon = new Platoon();
+            //    platoon.Class = chunks[0];
+            //    platoon.NumberOfSoldiers = Convert.ToInt32(chunks[1]);
+                
+            //    platoons.Add(platoon);
+            //}
+
+            for(var i=0; i< platoonList.Length; i++)
             {
+                var p = platoonList[i];
                 if (!ValidatePlatoon(p))
                 {
                     throw new Exception(string.Format("Invalid platoon: {0}", p));
@@ -29,7 +47,7 @@ namespace MedievalKing.Helpers
                 var platoon = new Platoon();
                 platoon.Class = chunks[0];
                 platoon.NumberOfSoldiers = Convert.ToInt32(chunks[1]);
-
+                platoon.Terrain = terrains[i];
                 platoons.Add(platoon);
             }
 
@@ -60,7 +78,7 @@ namespace MedievalKing.Helpers
         {
             try
             {
-                return !string.IsNullOrEmpty(input) && input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries).Length == 2;
+                return !string.IsNullOrEmpty(input) && input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries).Length == 3;
             }
             catch(Exception ex)
             {

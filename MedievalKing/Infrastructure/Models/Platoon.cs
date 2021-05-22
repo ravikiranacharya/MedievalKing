@@ -10,6 +10,7 @@ namespace MedievalKing.Infrastructure.Models
     {
         public int NumberOfSoldiers { get; set; }
         public string Class { get; set; }
+        public string Terrain { get; set; }
 
         public ISoldier CreateSoldier(string className)
         {
@@ -28,7 +29,7 @@ namespace MedievalKing.Infrastructure.Models
                 case "Spearmen":
                     return new Spearmen();
                 default:
-                    return new Soldier();
+                    return null;
             }
         }
 
@@ -47,9 +48,16 @@ namespace MedievalKing.Infrastructure.Models
                 var ownSoldierInstance = CreateSoldier(this.Class);
                 var opponentSoldierInstance = CreateSoldier(platoonObj.Class);
 
+                var ownStrength = ownSoldierInstance.GetEffect(platoonObj.Terrain) * this.NumberOfSoldiers;
+                var oppositionStrength = opponentSoldierInstance.GetEffect(platoonObj.Terrain) * platoonObj.NumberOfSoldiers;
+
                 if (ownSoldierInstance.HasAdvantage(platoonObj.Class))
                 {
-                    return platoonObj.NumberOfSoldiers < 2 * this.NumberOfSoldiers;
+                    return oppositionStrength < 2 * ownStrength;
+                }
+                else
+                {
+                    return oppositionStrength < ownStrength;
                 }
             }
             return false;

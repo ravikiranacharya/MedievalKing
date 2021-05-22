@@ -27,22 +27,31 @@ namespace MedievalKing.Infrastructure.Models
 
         }
 
-        // This method is incomplete. Need to cover logic to get all permutations instead of rotating right
+        
         private List<List<Platoon>> GetAllPermutations(List<Platoon> platoons)
         {
-            
-            var result = new List<List<Platoon>>();
-            
-            for(var i=0; i<platoons.Count-1; i++)
-            {
+            return Permutations<List<Platoon>>(platoons);
+        }
 
-                var tempPlatoons = platoons;
-                var mover = tempPlatoons[i];
-                tempPlatoons[i] = tempPlatoons[i + 1];
-                tempPlatoons[i + 1] = mover;
-                result.Add(tempPlatoons);
+        private static List<List<Platoon>> Permutations<T>(List<Platoon> list)
+        {
+            var result = new List<List<Platoon>>();
+            if (list.Count == 1)
+            { 
+                result.Add(list);
+                return result;
             }
 
+            foreach (var element in list)
+            { 
+                var remainingList = new List<Platoon>(list);
+                remainingList.Remove(element); 
+                foreach (var permutation in Permutations<T>(remainingList))
+                { 
+                    permutation.Add(element);
+                    result.Add(permutation);
+                }
+            }
             return result;
         }
 

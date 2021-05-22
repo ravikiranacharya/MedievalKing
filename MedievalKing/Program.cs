@@ -18,12 +18,19 @@ namespace MedievalKing
                     throw new Exception("Invalid input");
                 }
 
-                var kingdoms = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
-                var ownKingdom = kingdoms[0];
-                var opponentKingdom = kingdoms[1];
+                var lines = input.Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries);
+                var ownKingdom = lines[0];
+                var opponentKingdom = lines[1];
+                
+                var terrains = lines[2];
+                var terrainList = new List<String>();
+                foreach(var terrain in terrains.Split(";"))
+                {
+                    terrainList.Add(terrain);
+                }
 
-                var ownPlatoons = (List<Platoon>)InputHelper.ParseKingdom(ownKingdom);
-                var opponentPlatoons = (List<Platoon>)InputHelper.ParseKingdom(opponentKingdom);
+                var ownPlatoons = (List<Platoon>)InputHelper.ParseKingdom(ownKingdom, terrainList);
+                var opponentPlatoons = (List<Platoon>)InputHelper.ParseKingdom(opponentKingdom, terrainList);
 
                 var strategy = new Strategy();
                 strategy.OwnPlatoons = ownPlatoons;

@@ -10,5 +10,18 @@ namespace MedievalKing.Infrastructure.Models.Soldiers
         {
             InferiorClasses = new List<string>() { "Spearmen", "HeavyCavalry" };
         }
+
+        public override double GetEffect(string terrain)
+        {
+            switch (terrain)
+            {
+                case "Hill":
+                    return 2;
+                case "Plains":
+                    return 2;
+                default:
+                    return 1;
+            }
+        }
     }
 }
